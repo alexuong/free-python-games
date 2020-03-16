@@ -20,8 +20,8 @@ counts = {}
 
 def initialize():
     "Initialize `bombs`, `counts`, and `shown` grids."
-    for x in range(-250, 250, 50):
-        for y in range(-250, 250, 50):
+    for x in range(-200, 200, 50):
+        for y in range(-200, 200, 50):
             bombs[x, y] = False
             shown[x, y] = False
             counts[x, y] = -1
@@ -36,7 +36,9 @@ def initialize():
             total = 0
             for i in (-50, 0, 50):
                 for j in (-50, 0, 50):
-                    total += bombs[x + i, y + j]
+                    if((x + i >= -200 and x + i < 200) and (y + j >= -200 and y + j < 200)):
+                        total += bombs[x + i, y + j]
+
             counts[x, y] = total
 
 
@@ -44,7 +46,7 @@ def stamp(x, y, text):
     "Display `text` at coordinates `x` and `y`."
     square(x, y, 50, 'white')
     color('black')
-    write(text, font=('Arial', 50, 'normal'))
+    write(text, font=('Arial', 40, 'normal'))
 
 
 def draw():
@@ -81,9 +83,10 @@ def tap(x, y):
         if counts[x, y] == 0:
             for i in (-50, 0, 50):
                 for j in (-50, 0, 50):
-                    pair = x + i, y + j
-                    if not shown[pair]:
-                        pairs.append(pair)
+                    if((x + i >= -200 and x + i < 200) and (y + j >= -200 and y + j < 200)):
+                        pair = x + i, y + j
+                        if not shown[pair]:
+                            pairs.append(pair)
 
 
 setup(420, 420, 370, 0)
